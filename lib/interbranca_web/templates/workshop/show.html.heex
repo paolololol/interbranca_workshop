@@ -1,0 +1,35 @@
+<ul>
+
+  <li>
+    <strong>Nome:</strong>
+    <%= @workshop.name %>
+  </li>
+
+  <li>
+    <strong>Descrizione:</strong>
+    <%= @workshop.description %>
+  </li>
+
+  <li>
+    <strong>Posti totali:</strong>
+    <%= @workshop.max_slots %>
+  </li>
+
+  <li>
+    <strong>Inizio:</strong>
+    <%= @workshop.begins %>
+  </li>
+
+  <li>
+    <strong>Fine:</strong>
+    <%= @workshop.ends %>
+  </li>
+
+  <li>
+    <strong>Iscritti: <%= Enum.count(@workshop.iscrizioni) %></strong>
+  </li>
+    <%= Enum.map(@workshop.iscrizioni, fn x -> "#{x.tessera} #{x.name}" end)%>
+</ul>
+
+<span><%= link "Modifica", to: Routes.workshop_path(@conn, :edit, @workshop) %></span> |
+<span><%= link "Indietro", to: Routes.workshop_path(@conn, :index) %></span>

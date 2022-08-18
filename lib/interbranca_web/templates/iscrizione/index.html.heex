@@ -1,0 +1,20 @@
+<h1>Listing Iscrizioni</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Tessera</th>
+      <th>Workshop</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for iscrizione <- @iscrizioni do %>
+    <tr>
+      <td><%= iscrizione.name %></td>
+      <td><%= iscrizione.tessera %></td>
+      <td><%= iscrizione.workshop_id %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

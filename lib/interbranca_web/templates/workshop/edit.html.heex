@@ -1,0 +1,5 @@
+<h1>Modifica workshop</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.workshop_path(@conn, :update, @workshop)) %>
+
+<span><%= link "Indietro", to: Routes.workshop_path(@conn, :index) %></span>

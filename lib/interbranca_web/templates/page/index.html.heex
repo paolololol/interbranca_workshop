@@ -1,0 +1,59 @@
+<section class="phx-hero">
+  <span>Puoi iscriverti a due workshop dall'elenco, il numero di posti è limitato, quindi pensaci bene ma non esitare troppo!</span>
+</section>
+
+<section class="row">
+  <article class="column">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Posti liberi</th>
+          <th align="right">Orario</th>
+        </tr>
+      </thead>
+      <tbody>
+    <%= for workshop <- @workshops do %>
+        <tr class="no-border">
+          <td class="no-border"><strong><%= workshop.name %></strong></td>
+          <td class="no-border"><%= workshop.max_slots - Enum.count(workshop.iscrizioni) %>/<%= workshop.max_slots %></td>
+          <td align="right" class="no-border"><%= workshop.begins %> - <%= workshop.ends %></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="padding-bottom: 12px;">
+          <div class="riga-descrizione">
+              <p>
+                <%= workshop.description %>
+              </p>
+              <%= if is_iscritto?(@conn, workshop.id) do %>
+                    <%=
+                        button "Annulla iscrizione",
+                        to: Routes.iscrizione_path(
+                            @conn,
+                            :delete,
+                            workshop.id),
+                            method: :delete,
+                            data: [confirm: "Sei sicuro/a?"]
+                    %>
+                <%= else %>
+                    <%= if workshop.max_slots > Enum.count(workshop.iscrizioni) and can_signup?(@conn) do %>
+                            <%=
+                                button "Iscriviti",
+                                to: Routes.iscrizione_path(
+                                    @conn,
+                                    :create,
+                                    %{"iscrizione":
+                                        %{workshop_id: workshop}
+                                    }),
+                                    method: :post
+                            %>
+                    <% end %>
+                <%= end %>
+            </div>
+            </td>
+        </tr>
+    <% end %>
+      </tbody>
+    </table>
+  </article>
+</section>
