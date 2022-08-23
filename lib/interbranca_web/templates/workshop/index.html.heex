@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Hub</th>
       <th>Nome</th>
       <th>Descrizione</th>
       <th>Posti totali</th>
@@ -14,8 +15,9 @@
     </tr>
   </thead>
   <tbody>
-<%= for workshop <- @workshops do %>
+<%= for workshop <- Enum.sort(@workshops, &(&1.hub <= &2.hub)) do %>
     <tr>
+      <td><%= workshop.hub %></td>
       <td><%= workshop.name %></td>
       <td><%= workshop.description %></td>
       <td><%= workshop.max_slots %></td>

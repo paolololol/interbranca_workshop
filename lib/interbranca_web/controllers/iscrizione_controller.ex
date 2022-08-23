@@ -39,3 +39,4 @@ defmodule InterbrancaWeb.IscrizioneController do
     |> redirect(to: "/")
   end
 end
+

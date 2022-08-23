@@ -8,6 +8,7 @@ defmodule Interbranca.Workshops.Workshop do
     field :ends, :string
     field :max_slots, :integer
     field :name, :string
+    field :hub, :string
     has_many :iscrizioni, Interbranca.Workshops.Iscrizione
 
     timestamps()
@@ -16,7 +17,7 @@ defmodule Interbranca.Workshops.Workshop do
   @doc false
   def changeset(workshop, attrs) do
     workshop
-    |> cast(attrs, [:name, :description, :max_slots, :begins, :ends])
-    |> validate_required([:name, :description, :max_slots, :begins, :ends])
+    |> cast(attrs, [:name, :description, :max_slots, :begins, :ends, :hub])
+    |> validate_required([:name, :description, :max_slots, :begins, :ends, :hub])
   end
 end

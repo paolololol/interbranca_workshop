@@ -5,15 +5,10 @@
 <section class="row">
   <article class="column">
     <table>
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Posti liberi</th>
-          <th align="right">Orario</th>
-        </tr>
-      </thead>
       <tbody>
-    <%= for workshop <- @workshops do %>
+    <%= for chunk <- Enum.chunk_by(@workshops, &(&1.hub)) do %>
+      <tr><td colspan="3"><h2 style="margin-bottom: 0"><%= Enum.at(chunk, 0).hub %></h2></td></tr>
+    <%= for workshop <- chunk do %>
         <tr class="no-border">
           <td class="no-border"><strong><%= workshop.name %></strong></td>
           <td class="no-border"><%= workshop.max_slots - Enum.count(workshop.iscrizioni) %>/<%= workshop.max_slots %></td>
@@ -52,6 +47,7 @@
             </div>
             </td>
         </tr>
+    <% end %>
     <% end %>
       </tbody>
     </table>

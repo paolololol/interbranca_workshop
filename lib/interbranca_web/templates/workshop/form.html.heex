@@ -25,7 +25,10 @@
   <%= text_input f, :ends %>
   <%= error_tag f, :ends %>
 
-  <div>
+  <%= label f, :hub, "Hub" %>
+  <%= select f, :hub, ["Gioca il gioco", "StarBene", "Scientificamente scout", "ComExpress"] %>
+  <%= error_tag f, :hub %>
+<div>
     <%= submit "Salva" %>
   </div>
 </.form>
