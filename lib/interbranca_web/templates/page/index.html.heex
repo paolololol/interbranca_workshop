@@ -6,7 +6,7 @@
   <article class="column">
     <table>
       <tbody>
-    <%= for chunk <- Enum.chunk_by(@workshops, &(&1.hub)) do %>
+    <%= for chunk <- Enum.sort(@workshops, &(&1.hub <= &2.hub)) |> Enum.chunk_by(&(&1.hub)) do %>
       <tr><td colspan="3"><h2 style="margin-bottom: 0"><%= Enum.at(chunk, 0).hub %></h2></td></tr>
     <%= for workshop <- chunk do %>
         <tr class="no-border">
