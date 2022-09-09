@@ -1,26 +1,31 @@
 <section class="phx-hero">
-  <span>Puoi iscriverti a due workshop dall'elenco, il numero di posti è limitato, quindi pensaci bene ma non esitare troppo!</span>
+    <span>Puoi iscriverti a due workshop dall'elenco, il numero di posti è limitato, quindi pensaci bene ma non esitare troppo!</span>
 </section>
 
 <section class="row">
-  <article class="column">
-    <table>
-      <tbody>
-    <%= for chunk <- Enum.sort(@workshops, &(&1.hub <= &2.hub)) |> Enum.chunk_by(&(&1.hub)) do %>
-      <tr><td colspan="3"><h2 style="margin-bottom: 0"><%= Enum.at(chunk, 0).hub %></h2></td></tr>
-    <%= for workshop <- chunk do %>
-        <tr class="no-border">
-          <td class="no-border"><strong><%= workshop.name %></strong></td>
-          <td class="no-border"><%= workshop.max_slots - Enum.count(workshop.iscrizioni) %>/<%= workshop.max_slots %></td>
-          <td align="right" class="no-border"><%= workshop.begins %> - <%= workshop.ends %></td>
-        </tr>
-        <tr>
-          <td colspan="3" style="padding-bottom: 12px;">
-          <div class="riga-descrizione">
-              <p>
-                <%= workshop.description %>
-              </p>
-              <%= if is_iscritto?(@conn, workshop.id) do %>
+    <article class="column">
+        <div>
+            <%= for chunk <- Enum.sort(@workshops, &(&1.hub <= &2.hub)) |> Enum.chunk_by(&(&1.hub)) do %>
+            <div><h2 style="margin-bottom: 0"><%= Enum.at(chunk, 0).hub %></h2></div>
+            <%= for workshop <- chunk do %>
+            <div>
+                <strong>
+                    <%= if(rem(workshop.id, 2) == 1, do: '', else: workshop.name) %>
+                </strong>
+                <div class="riga-descrizione">
+                    <p>
+                        <%= if(rem(workshop.id, 2) == 1, do: '', else: workshop.description) %>
+                    </p>
+                </div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap;">
+                    <div>
+                    <span>Orario: <%= workshop.begins %> - <%= workshop.ends %></span>
+                    <em><%= workshop.max_slots - Enum.count(workshop.iscrizioni) %>/<%= workshop.max_slots %>
+                        posti liberi
+                    </em>
+                    </div>
+                    <%= cond do %>
+                    <%= is_iscritto?(@conn, workshop.id, @iscrizioni) -> %>
                     <%=
                         button "Annulla iscrizione",
                         to: Routes.iscrizione_path(
@@ -30,9 +35,11 @@
                             method: :delete,
                             data: [confirm: "Sei sicuro/a?"]
                     %>
-                <%= else %>
-                    <%= if workshop.max_slots > Enum.count(workshop.iscrizioni) and can_signup?(@conn) do %>
-                            <%=
+                    <%= !slot_preso?(@conn, workshop, @iscrizioni) -> %>
+                        <button aria-disabled="true" disabled>Sei già occupato</button>
+                    <%= true -> %>
+                    <%= if workshop.max_slots > Enum.count(workshop.iscrizioni) and can_signup?(@conn, @iscrizioni) do %>
+                    <%=
                                 button "Iscriviti",
                                 to: Routes.iscrizione_path(
                                     @conn,
@@ -43,13 +50,14 @@
                                     method: :post
                             %>
                     <% end %>
-                <%= end %>
+                    <% end %>
+                </div>
             </div>
-            </td>
-        </tr>
-    <% end %>
-    <% end %>
-      </tbody>
-    </table>
-  </article>
+            <%= if rem(workshop.id, 2) == 1 do %>
+                <hr/>
+            <% end %>
+            <% end %>
+            <% end %>
+        </div>
+    </article>
 </section>

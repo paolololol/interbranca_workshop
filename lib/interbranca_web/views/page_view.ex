@@ -2,8 +2,7 @@ defmodule InterbrancaWeb.PageView do
   use InterbrancaWeb, :view
   import InterbrancaWeb.Utils
 
-  def is_iscritto?(conn, workshop_id) do
-    iscrizioni = Interbranca.Workshops.list_iscrizioni_by_user(get_tessera_from_session(conn))
+  def is_iscritto?(conn, workshop_id, iscrizioni) do
     if iscrizioni == nil do
       false
     else
@@ -13,8 +12,17 @@ defmodule InterbrancaWeb.PageView do
     end
   end
 
-  def can_signup?(conn) do
-    iscrizioni = Interbranca.Workshops.list_iscrizioni_by_user(get_tessera_from_session(conn))
+  def slot_preso?(conn, workshop, iscrizioni) do
+    if iscrizioni == nil do
+      false
+    else
+      iscrizioni
+      |> Enum.filter(fn x -> x.workshop.begins == workshop.begins end)
+      |> Enum.empty?
+    end
+  end
+
+  def can_signup?(conn, iscrizioni) do
     if iscrizioni == nil do
       true
     else

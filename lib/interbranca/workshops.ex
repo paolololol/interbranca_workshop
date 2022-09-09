@@ -129,6 +129,7 @@ defmodule Interbranca.Workshops do
   def list_iscrizioni_by_user(tessera) do
     from(i in Iscrizione, where: i.tessera == ^tessera)
     |> Repo.all
+    |> Repo.preload(:workshop)
   end
 
   @doc """
