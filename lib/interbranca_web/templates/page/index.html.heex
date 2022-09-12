@@ -1,3 +1,4 @@
+<%= if is_partecipante?(@camere) do %>
 <section class="phx-hero">
     <span>Puoi scegliere due workshop, uno per ciascuno slot.<br/>Primo slot 16.30-17.45; secondo slot 18.15-19.30</span>
     <%= if !Enum.empty?(@iscrizioni) do %>
@@ -10,7 +11,14 @@
         </ul>
     </div>
     <% end %>
+    <hr>
+    <%= format_camera(@camere) %>
 </section>
+<% else %>
+<section class="phx-hero">
+    Non risulti iscritto a Interbranca. Se ritieni che sia un errore, contatta help@cngei.it
+</section>
+<% end %>
 
 <section class="row">
     <article class="column">
@@ -41,6 +49,8 @@
                         </em>
                     </div>
                     <%= cond do %>
+                    <%= !is_partecipante?(@camere) -> %>
+                        <span></span>
                     <%= is_iscritto?(@conn, workshop.id, @iscrizioni) -> %>
                     <%=
                         button "Annulla iscrizione",
