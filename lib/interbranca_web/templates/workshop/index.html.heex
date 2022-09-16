@@ -5,7 +5,6 @@
     <tr>
       <th>Hub</th>
       <th>Nome</th>
-      <th>Descrizione</th>
       <th>Posti totali</th>
       <th>Iscritti</th>
       <th>Inizio</th>
@@ -15,11 +14,10 @@
     </tr>
   </thead>
   <tbody>
-<%= for workshop <- Enum.sort(@workshops, &(&1.hub <= &2.hub)) do %>
+<%= for workshop <- Enum.sort(@workshops, &(&1.name <= &2.name)) |> Enum.sort(&(&1.hub <= &2.hub)) do %>
     <tr>
       <td><%= workshop.hub %></td>
       <td><%= workshop.name %></td>
-      <td><%= workshop.description %></td>
       <td><%= workshop.max_slots %></td>
       <td><%= Enum.count(workshop.iscrizioni) %></td>
       <td><%= workshop.begins %></td>
@@ -27,12 +25,8 @@
 
       <td>
         <span><%= link "Dettagli", to: Routes.workshop_path(@conn, :show, workshop) %></span>
-        <span><%= link "Modifica", to: Routes.workshop_path(@conn, :edit, workshop) %></span>
-        <span><%= link "Elimina", to: Routes.workshop_path(@conn, :delete, workshop), method: :delete, data: [confirm: "Sei sicuro?"] %></span>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
-
-<span><%= link "Crea nuovo", to: Routes.workshop_path(@conn, :new) %></span>

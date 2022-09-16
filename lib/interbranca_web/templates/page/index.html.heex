@@ -1,6 +1,10 @@
 <%= if is_partecipante?(@camere) do %>
 <section class="phx-hero">
+    <%= if !expired? do %>
     <span>Puoi scegliere due workshop, uno per ciascuno slot.<br/>Primo slot 16.30-17.45; secondo slot 18.15-19.30</span>
+    <% else %>
+    <span>Le iscrizioni sono chiuse. Se non sei iscritto a due workshop potrai partecipare senza prenotazione dove sono rimasti posti liberi.</span>
+    <% end %>
     <%= if !Enum.empty?(@iscrizioni) do %>
     <div style="text-align: left">
         <span>Sei iscritto/a a:</span>
@@ -49,7 +53,7 @@
                         </em>
                     </div>
                     <%= cond do %>
-                    <%= !is_partecipante?(@camere) -> %>
+                    <%= !is_partecipante?(@camere) or expired? -> %>
                         <span></span>
                     <%= is_iscritto?(@conn, workshop.id, @iscrizioni) -> %>
                     <%=

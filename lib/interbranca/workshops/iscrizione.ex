@@ -4,7 +4,7 @@ defmodule Interbranca.Workshops.Iscrizione do
 
   schema "iscrizioni" do
     field :name, :string
-    field :tessera, :string
+    belongs_to :persona, Interbranca.Alloggi.Incarichi, foreign_key: :tessera, type: :string, references: :tessera
     belongs_to :workshop, Interbranca.Workshops.Workshop
 
     timestamps()

@@ -35,7 +35,7 @@ defmodule Interbranca.Workshops do
       ** (Ecto.NoResultsError)
 
   """
-  def get_workshop!(id), do: Repo.get!(Workshop, id) |> Repo.preload(:iscrizioni)
+  def get_workshop!(id), do: Repo.get!(Workshop, id) |> Repo.preload(iscrizioni: [:persona])
 
   @doc """
   Creates a workshop.

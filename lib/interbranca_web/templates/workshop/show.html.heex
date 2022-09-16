@@ -32,8 +32,9 @@
   <li>
     <strong>Iscritti: <%= Enum.count(@workshop.iscrizioni) %></strong>
   </li>
-    <%= Enum.map(@workshop.iscrizioni, fn x -> "#{x.tessera} #{x.name}" end)%>
+  <%= for iscritto <- @workshop.iscrizioni do %>
+  <div><%= iscritto.name %><%= if iscritto.persona != nil do %> - <%= iscritto.persona.sezione %> - <%= iscritto.persona.incarichi %><% end %></div>
+  <% end %>
 </ul>
 
-<span><%= link "Modifica", to: Routes.workshop_path(@conn, :edit, @workshop) %></span> |
 <span><%= link "Indietro", to: Routes.workshop_path(@conn, :index) %></span>

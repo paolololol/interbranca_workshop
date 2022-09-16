@@ -38,10 +38,10 @@ defmodule InterbrancaWeb.PageView do
   end
 
   def can_signup?(conn, iscrizioni) do
-    if iscrizioni == nil do
-      true
-    else
-      Enum.count(iscrizioni) < 2
+    cond do
+      expired?() -> false
+      iscrizioni == nil -> true
+      true -> Enum.count(iscrizioni) < 2
     end
   end
 
@@ -52,5 +52,12 @@ defmodule InterbrancaWeb.PageView do
      text == "StarBene" -> "#ff9f11"
      text == "Scientificamente scout" -> "#980000"
     end
+  end
+
+  def expired?() do
+    DateTime.compare(
+      DateTime.utc_now(),
+      DateTime.from_iso8601("2022-09-16T18:00:00Z") |> elem(1)
+    ) == :gt
   end
 end
